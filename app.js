@@ -115,3 +115,11 @@ app.put("/blogs/:id", function (req, res) {
     }
   });
 });
+
+//destroy blog route
+app.delete("/blogs/:id", function (req, res) {
+  blogModel.findByIdAndRemove(req.params.id, function (err) {
+    if (err) res.redirect("/blogs");
+    else res.redirect("/blogs");
+  });
+});

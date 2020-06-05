@@ -13,6 +13,15 @@
          <h4> <%= blog.content %></h4>
     </div>
 
+ <div style="display:flex;">
+    <form npm iaction="/blogs/<%=blog._id%>?_method=DELETE" method="POST">
+        <button class="ui red basic button"> Delete Post </button>
+    </form>    
+
+     <form  action="/blogs/<%=blog._id%>/edit" method="GET">
+        <button class="ui blue basic button"> Edit Post </button>
+    </form> 
+  </div>  
 </div>
 
 
