@@ -46,8 +46,9 @@ var blogModel = mongoose.model("blog", blogSchema);
 //RESTful Routes
 
 app.get("/", function (req, res) {
-  res.redirect("index");
+  res.redirect("/blogs");
 });
+
 app.get("/blogs", function (req, res) {
   blogModel.find({}, function (err, blogs) {
     if (err) console.log("Error obtaining blogs!");
@@ -55,6 +56,32 @@ app.get("/blogs", function (req, res) {
       console.log("Blogs found!!!.......");
       console.log(blogs);
       res.render("index", { blogs: blogs });
+    }
+  });
+});
+
+app.get("/blogs/new", function (req, res) {
+  res.render("new");
+});
+
+//post route
+app.post("/blogs", function (req, res) {
+  //create the blog from the req object sent by the new page
+
+  blogModel.create(req.body.blog, function (err, newBlog) {
+    if (err) console.log("Error in creating new blog!");
+    else {
+      res.redirect("/blogs");
+    }
+  });
+});
+
+//show route
+app.get("/blogs/:id", function (req, res) {
+  blogModel.findById(req.params.id, function (err, foundBlog) {
+    if (err) console / log("Blog not found!");
+    else {
+      res.render("shows", { blog: foundBlog });
     }
   });
 });

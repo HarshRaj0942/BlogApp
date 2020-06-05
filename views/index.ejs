@@ -9,13 +9,18 @@
         <%#   Here, we write the <percentage operator inside the quotes since the operator only sends the string over, without the quotes%>
        <div class="thumbnail"> 
         <img src = "<%= blog.image%>">
+       </div> 
         <div class="caption">
          <h4> <%= blog.title %></h4>
-        </div> 
+        </div>
+
+        <p> <%=blog.content%></p> 
+
+        <a href="/blogs/<%=blog._id%>" > Read More</a>
        <!-- <p>
          <a href="/campgrounds/<%= blog._id%>" class="btn btn-primary">More Info</a>
         </p>-->
-       </div> 
+     
     </div> 
 
 

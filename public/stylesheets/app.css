@@ -1,0 +1,15 @@
+i.icon {
+  font-size: 2em;
+}
+
+.container.main {
+  margin-top: 5em;
+}
+
+.bolden {
+  border: 2px solid black;
+}
+
+.centralize {
+  text-align: center;
+}
