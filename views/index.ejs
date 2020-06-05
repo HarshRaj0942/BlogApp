@@ -1,0 +1,25 @@
+<%- include ("partials/header") %>
+
+<h1>This is index page!</h1>
+
+<div class="row text-center" style ="display:flex; flex-wrap: wrap;">
+    <% blogs.forEach(function(blog) { %>
+
+    <div class="col-md-3 col-sm-6">
+        <%#   Here, we write the <percentage operator inside the quotes since the operator only sends the string over, without the quotes%>
+       <div class="thumbnail"> 
+        <img src = "<%= blog.image%>">
+        <div class="caption">
+         <h4> <%= blog.title %></h4>
+        </div> 
+       <!-- <p>
+         <a href="/campgrounds/<%= blog._id%>" class="btn btn-primary">More Info</a>
+        </p>-->
+       </div> 
+    </div> 
+
+
+<%});%>
+</div>
+
+<%- include ("partials/footer") %>
