@@ -2,11 +2,13 @@ var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var sanitizer = require("express-sanitizer");
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(sanitizer());
 app.use(methodOverride("_method"));
 
 //server listening at port 6969
@@ -31,20 +33,6 @@ var blogSchema = mongoose.Schema({
 });
 var blogModel = mongoose.model("blog", blogSchema);
 
-// blogModel.create(
-//   {
-//     title: "Barbarossa",
-//     image:
-//       "https://cdn.britannica.com/s:700x500/01/150101-050-810CE9A9/soldiers-German-part-Soviet-Union-Operation-Barbarossa-1941.jpg",
-//     content: "Arguably the greatest battle fought in human history.",
-//   },
-//   function (err, blog) {
-//     if (err) console.log("error!");
-//     else console.log("NEW BLOG!!");
-//     console.log(blog);
-//   }
-// );
-
 //RESTful Routes
 
 app.get("/", function (req, res) {
@@ -66,10 +54,11 @@ app.get("/blogs/new", function (req, res) {
   res.render("new");
 });
 
-//post route
+//post route , this must be sanitized though
 app.post("/blogs", function (req, res) {
   //create the blog from the req object sent by the new page
 
+  req.body.blog.content = req.sanitize(req.body.blog.content);
   blogModel.create(req.body.blog, function (err, newBlog) {
     if (err) console.log("Error in creating new blog!");
     else {
@@ -103,6 +92,7 @@ app.get("/blogs/:id/edit", function (req, res) {
 
 //update route
 app.put("/blogs/:id", function (req, res) {
+  req.body.blog.content = req.sanitize(req.body.blog.content);
   blogModel.findByIdAndUpdate(req.params.id, req.body.blog, function (
     err,
     updatedBlog
