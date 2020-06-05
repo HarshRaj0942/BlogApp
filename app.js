@@ -1,11 +1,13 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(methodOverride("_method"));
 
 //server listening at port 6969
 
@@ -82,6 +84,34 @@ app.get("/blogs/:id", function (req, res) {
     if (err) console / log("Blog not found!");
     else {
       res.render("shows", { blog: foundBlog });
+    }
+  });
+});
+
+//edit route
+
+app.get("/blogs/:id/edit", function (req, res) {
+  blogModel.findById(req.params.id, function (err, foundBlog) {
+    if (err) {
+      console.log("Error finding the blog!");
+      res.redirect("/blogs");
+    } else {
+      res.render("edit", { blog: foundBlog });
+    }
+  });
+});
+
+//update route
+app.put("/blogs/:id", function (req, res) {
+  blogModel.findByIdAndUpdate(req.params.id, req.body.blog, function (
+    err,
+    updatedBlog
+  ) {
+    if (err) {
+      res.redirect("/blogs");
+    } else {
+      // res.send("updated!");
+      res.redirect("/blogs/" + req.params.id);
     }
   });
 });
